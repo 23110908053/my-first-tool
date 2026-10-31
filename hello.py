@@ -43,11 +43,13 @@ def show_report():
     month = datetime.date.today().strftime("%Y-%m")
 
     total = 0
+    count = 0
     by_category = {}
 
     for r in records:
         if r["date"].startswith(month):
             total = total + r["amount"]
+            count = count + 1
 
             cat = r["category"]
             if cat in by_category:
@@ -56,6 +58,13 @@ def show_report():
                 by_category[cat] = r["amount"]
 
     print(month, "一共花了", total, "元")
+
+
+    if count > 0:
+        print("平均每笔", total / count, "元")
+    else:
+        print("这个月还没有记录")
+        
     for cat, money in by_category.items():
         print("  ", cat, money, "元")
 if len(sys.argv) > 1:
