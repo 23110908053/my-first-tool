@@ -18,10 +18,17 @@ def add_record():
         amount =input("花了多少钱？（直接回车就退出）")
         if amount == "":
                 break
+
+        try:
+            money = float(amount)
+        except ValueError:
+            print("这不是数字，重新来一次")
+            continue
+
         category = input("花在哪？（比如 吃饭/交通/学习)")
         record = {
             "date" :datetime.date.today().isoformat(),
-            "amount": float(amount),
+            "amount": money,
             "category": category,
         }
         records = load_records()
@@ -64,7 +71,7 @@ def show_report():
         print("平均每笔", total / count, "元")
     else:
         print("这个月还没有记录")
-        
+
     for cat, money in by_category.items():
         print("  ", cat, money, "元")
 if len(sys.argv) > 1:
